@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+@Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
