@@ -62,4 +62,4 @@ Moreover, it makes it faster to verify if a method since it doesnt have to be do
 If i were to create another functional test suite to verify the number of items in the product list it would risk introducing unnecessary code duplication. 
 Repeating setup logic and instance variables across multiple test classes increases maintenance effort. A more efficient way would be to extract shared setup logic into a base test class and have individual test suites inherit from it. In conclusion, reducing redundancy and centralizing shared logic is what i would implement for a cleaner code.
 
-<details> 
+</details> 
