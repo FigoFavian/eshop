@@ -40,13 +40,12 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
     testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
     testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
-    testImplementation("org.junit.jupiter:junit-Jupiter-api:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
 
 tasks.register<Test>("unitTest") {
-    description "Runs unit tests."
-    group "verification"
+    description = "Runs unit tests."
+    group = "verification"
 
     filter {
         excludeTestsMatching("*FunctionalTest")
@@ -55,10 +54,10 @@ tasks.register<Test>("unitTest") {
 
 tasks.register<Test>("functionalTest") {
     description = "Runs functional tests."
-    group "verification"
+    group = "verification"
 
     filter {
-        include TestsMatching("*FunctionalTest")
+        includeTestsMatching("*FunctionalTest")
     }
 }
 
