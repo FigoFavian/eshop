@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +19,7 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setup() {
+        productRepository = new ProductRepository();
     }
 
     @Test
@@ -64,4 +65,62 @@ class ProductRepositoryTest {
         assertFalse (productIterator.hasNext());
     }
 
+    @Test
+    void testIfProductExistsAfterUpdate() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("eb558e9f-1c39-460-8860-71af6af63bd6");
+        updatedProduct.setProductName("Sampo Cap Bambang Terbaru");
+        updatedProduct.setProductQuantity(200);
+        Product result = productRepository.updateProductAfterEdit(updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("Sampo Cap Bambang Terbaru", result.getProductName());
+        assertEquals(200, result.getProductQuantity());
+    }
+
+    @Test
+    void testIfProductNotFoundAfterUpdate() {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("this id dont exist");
+        updatedProduct.setProductName("this product dont exist too");
+        updatedProduct.setProductQuantity(50);
+        Product result = productRepository.updateProductAfterEdit(updatedProduct);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testIfProductIsActuallyDeleted(){
+
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        productRepository.deleteProductById(product.getProductId());
+        Product deletedProduct = productRepository.findProductById(product.getProductId());
+
+        assertNull(deletedProduct);
+    }
+
+    @Test
+    void testDeletedProductNotFound(){
+        String thisProductIdDontExist = "This id dont exist";
+
+        Product productBeforeDelete = productRepository.findProductById(thisProductIdDontExist);
+        assertNull(productBeforeDelete);
+
+        productRepository.deleteProductById(thisProductIdDontExist);
+
+        Product productAfterDelete = productRepository.findProductById(thisProductIdDontExist);
+        assertNull(productAfterDelete);
+
+    }
 }
