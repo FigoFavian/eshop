@@ -1,4 +1,4 @@
-> eShop with Spring Boot
+## eShop with Spring Boot
 
 <details> 
 <summary>Reflection 1</summary>
@@ -51,8 +51,11 @@ Specifically, in the productData list is where all the created product object is
 Some best practices for error handling include:
 
 a. Using try-catch-finally blocks when necessary.
+
 b. Throwing clear and specific exceptions.
+
 c. Avoiding returning or passing null.
+
 d. and many more
 
 In my program, there are still areas that can be improved. For instance:
