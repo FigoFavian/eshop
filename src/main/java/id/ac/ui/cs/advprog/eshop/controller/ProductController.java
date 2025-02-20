@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String EditProductPage(@PathVariable("id") String id, Model model) {
+    public String editProductPage(@PathVariable("id") String id, Model model) {
         Product product = service.findProductById(id);
         if (product == null) {
             return "redirect:/product/list";
