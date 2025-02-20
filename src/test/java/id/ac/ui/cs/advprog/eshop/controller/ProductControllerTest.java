@@ -23,29 +23,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
-
-
-import static org.mockito.ArgumentMatchers.anyString;
 
 import static org.mockito.Mockito.when;
 
-
-
-
-import org.junit.jupiter.api.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -95,6 +80,8 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("productList"))
                 .andExpect(model().attribute("products", products));
+
+        verify(service, times(1)).findAll();
     }
 
     @Test
@@ -120,7 +107,7 @@ public class ProductControllerTest {
 
         this.mockMvc.perform(post("/product/edit").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("productId", "1").param("productName", "Deepwoken")
-                        .param("productQuantity", "4")).andExpect(redirectedUrl("list"));
+                        .param("productQuantity", "4")).andExpect(redirectedUrl("/product/list"));
 
         //while being made, get the product
         ArgumentCaptor<String> captorId = ArgumentCaptor.forClass(String.class);
@@ -144,4 +131,6 @@ public class ProductControllerTest {
 
         verify(service, times(1)).deleteProductById("1");
     }
+
+
 }

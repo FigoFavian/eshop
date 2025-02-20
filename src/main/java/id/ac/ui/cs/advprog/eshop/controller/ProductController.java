@@ -49,7 +49,7 @@ public class ProductController {
     @PostMapping("/edit")
     public String editProductPost(@ModelAttribute Product product, Model model) {
         service.updateProductAfterEdit(product);
-        return "redirect:list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/delete/{id}")
