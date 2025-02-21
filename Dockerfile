@@ -18,8 +18,6 @@ USER ${USER_NAME}
 WORKDIR /opt/advshop
 COPY --from=builder --chown=${USER_UID}:${USER_GID} /src/advshop/build/libs/eshop-0.0.1-SNAPSHOT.jar app.jar
 
-RUN chmod +x ./gradlew
-
 EXPOSE 8080
 
 ENTRYPOINT [ "java" ]
