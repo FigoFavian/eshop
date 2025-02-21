@@ -78,7 +78,7 @@ public class ProductControllerTest {
 
         this.mockMvc.perform(get("/product/list"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("productList"))
+                .andExpect(view().name("ProductList"))
                 .andExpect(model().attribute("products", products));
 
         verify(service, times(1)).findAll();

@@ -13,14 +13,17 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out the Git repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4
 
       - name: Set up Java toolchain
-        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "21"
           cache: "gradle"
+
+      - name: Grant execute permission to Gradle wrapper
+        run: chmod +x gradlew
 
       - name: Run unit tests
         run: ./gradlew test
