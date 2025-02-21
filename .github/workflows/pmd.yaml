@@ -1,32 +1,38 @@
-name: PMD Code Analysis
+name: pmd
 
 on:
   push:
   pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '21 0 * * 2'
 
 permissions:
   contents: read
-  security-events: write
-  actions: read
 
 jobs:
-  pmd:
+  pmd-code-scan:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-
-      - name: Run PMD
-        uses: pmd/pmd-github-action@d9c1f3c5940cbf5923f1354e83fa858b4496ebaa
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
         with:
-          version: 7.0.0-rc4
-          rulesets: rulesets/java/quickstart.xml
-          sourcePath: src/main
-          uploadSarifReport: true
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Run PMD
+        id: pmd
+        uses: pmd/pmd-github-action@v2
+        with:
+          version: '7.0.0-rc4'
+          rulesets: 'rulesets/java/quickstart.xml'
+          sourcePath: 'src/main/java'
           analyzeModifiedFilesOnly: false
-
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@9e8d0789d4a0fa9ceb6b1738f7e269594bdd67f0
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: pmd-report.sarif
