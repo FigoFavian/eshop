@@ -1,4 +1,6 @@
-## eShop with Spring Boot
+## eShop 
+
+### Module 1
 
 <details> 
 <summary>Reflection 1</summary>
@@ -81,3 +83,10 @@ Maintaining duplicate code can lead to inconsistencies if one test is updated wh
 In conclusion, reducing redundancy and centralizing shared logic is what i would implement for a cleaner code.
 
 </details> 
+
+### Module 2
+
+<details> 
+<summary>Reflection</summary>
+
+</details>
