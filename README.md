@@ -89,4 +89,10 @@ In conclusion, reducing redundancy and centralizing shared logic is what i would
 <details> 
 <summary>Reflection</summary>
 
+From the beginning, based on ScoreBoard, my test coverage was not even close to 90% so i had to change and improve all the test, mostly using mock. After creating unit test and fixing some of the classed from main, the code was 100% successful. During the CI process i ran into failures after failures. This was proven by GitHub Actions. The issue was that the HTML templates were not being detected correctly. So i had to fix a typo due to case-sensitive naming such as “productList” should’ve been “ProductList” in ProductController.java.
+
+
+
+For the implementation of CI/CD workflows, i used module 2 for the reference. I used OSSF scorecard and PMD. Both PMD and OSSF scorecard allows me to check and detect my code incase there are issues needed to be solved. By checking GitHub Actions for test from pushes with ci.yml for Continunois Integration. As for CD, Continuous Deployment, I used Koyeb to deploy the program. I connected Koyeb with GitHub repo using Koyeb’s API access token. Everytime there is a push to my GitHub repo, Koyeb deploys the webservice build for the eshop.
+
 </details>
