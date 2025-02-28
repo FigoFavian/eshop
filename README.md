@@ -96,3 +96,45 @@ From the beginning, based on ScoreBoard, my test coverage was not even close to 
 For the implementation of CI/CD workflows, i used module 2 for the reference. I used OSSF scorecard and PMD. Both PMD and OSSF scorecard allows me to check and detect my code incase there are issues needed to be solved. By checking GitHub Actions for test from pushes with ci.yml for Continunois Integration. As for CD, Continuous Deployment, I used Koyeb to deploy the program. I connected Koyeb with GitHub repo using Koyeb’s API access token. Everytime there is a push to my GitHub repo, Koyeb deploys the webservice build for the eshop.
 
 </details>
+
+### Module 3
+
+<details>
+<summary>Reflection</summary>
+
+**A. principles applied to the project**
+
+I implemented all the SOLID Principles:
+1. S stands for Single Resposibility Principle(SRP): Previously, i forgot to add HomePage class, hence i added it here as its own class based on SRP. During before-solid tutorial, the CarController class was an extension of ProductController but this violates the SRP Principles since it only handles car and not products. So what i did was to make its own class called CarController.
+
+2. O stands for Open Closed Principles (OCP):
+   For CarRepository, i added a InterfaceRepository class that allows me to create a new repo for upcoming changes without changing previos codes.
+
+3. L stands for Liskov Substitution Principle (LSP):
+   Quite similar to the previous implementation, i made CarController its own class when previously it was a subclass of ProductController. This is due to CarController not being able to replace ProductController’s funtions, vice versa.
+
+4. I stands for Interface Segregation Principle (ISP):
+   An Interface needs its own task to do rather than needing to use all of the methods in a class. For example, the interface of CarService. Hence splitting InterfaceRepository to WriteRepository and ReadRepository for its own tasks.
+
+5. D stands for Dependency Inversions Principle (DIP):
+   I modified `private CarServiceImpl carservice;` into `private CarService carservice;` because a module relies on a class/interface that is abstract instead of a concrete one based on DIP.
+
+
+**B. The advantages of applying SOLID principle**
+
+1. The first thing is that the code is now readable due to each method having its own tasks, for example, the controller directory and its classes.
+
+2. InterfaceRepository with its ReadRepository and WriteRepository, allowing code flexibility for not needing a modification when a new repository is made.
+
+3. Since each class and interface has a single responsibility, future modifications and bug fixes are easier to implement without affecting other parts of the code.
+
+
+C. **The diadvantages of NOT applying SOLID principle**
+
+1. If CarController remained a subclass of ProductController then any change in ProductController could affect CarController. Hence making it harder to maintain and debug.
+
+2. Without ISP, CarService might be forced to implement unnecessary methods. This may lead to redundant or empty method implementations.
+
+3. Using CarServiceImpl directly instead of CarService or not implementing DIP makes it difficult to switch to a new implementation.
+
+</details>
