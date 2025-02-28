@@ -105,19 +105,20 @@ For the implementation of CI/CD workflows, i used module 2 for the reference. I 
 **A. principles applied to the project**
 
 I implemented all the SOLID Principles:
-1. S stands for Single Resposibility Principle(SRP): Previously, i forgot to add HomePage class, hence i added it here as its own class based on SRP. During before-solid tutorial, the CarController class was an extension of ProductController but this violates the SRP Principles since it only handles car and not products. So what i did was to make its own class called CarController.
+1. S stands for Single Resposibility Principle(SRP): 
+   This principle tells us that a class should only have one responsibility or does one thing. Previously, i forgot to add HomePage class, hence i added it here as its own class based on SRP. During before-solid tutorial, the CarController class was an extension of ProductController but this violates the SRP Principles since it only handles car and not products. So what i did was to make its own class called CarController.
 
 2. O stands for Open Closed Principles (OCP):
-   For CarRepository, i added a InterfaceRepository class that allows me to create a new repo for upcoming changes without changing previos codes.
+   An open or closed principle means that software entities such as the parent classes are open only for extension, meanwhile it can't be modified / closed for modifying. For CarRepository, i added a InterfaceRepository class that allows me to create a new repo for upcoming changes without changing previous codes.
 
 3. L stands for Liskov Substitution Principle (LSP):
-   Quite similar to the previous implementation, i made CarController its own class when previously it was a subclass of ProductController. This is due to CarController not being able to replace ProductController’s funtions, vice versa.
+   This principle states that a subclass can change its superclass without disruption the functionality of the program. Quite similar to the previous implementation, i made CarController its own class when previously it was a subclass of ProductController. This is due to CarController not being able to replace ProductController’s functions, vice versa.
 
 4. I stands for Interface Segregation Principle (ISP):
-   An Interface needs its own task to do rather than needing to use all of the methods in a class. For example, the interface of CarService. Hence splitting InterfaceRepository to WriteRepository and ReadRepository for its own tasks.
+   It means that an Interface needs its own task to do rather than needing to use all of the methods in a class. For example, the interface of CarService. Hence splitting InterfaceRepository to WriteRepository and ReadRepository for its own tasks.
 
 5. D stands for Dependency Inversions Principle (DIP):
-   I modified `private CarServiceImpl carservice;` into `private CarService carservice;` because a module relies on a class/interface that is abstract instead of a concrete one based on DIP.
+   In general, the principle states that high level modules should not depend on low level modules because both should depend on abstractions. I modified `private CarServiceImpl carservice;` into `private CarService carservice;` because a module relies on a class/interface that is abstract instead of a concrete one based on DIP.
 
 
 **B. The advantages of applying SOLID principle**
