@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class CarRepository {
+public class CarRepository implements InterfaceRepository<Car> {
     static int id = 0;
 
     private List<Car> carData = new ArrayList<>();
@@ -24,7 +24,6 @@ public class CarRepository {
     public Iterator<Car> findAll() {
         return carData.iterator();
     }
-
 
     public Car findById(String id) {
         for (Car car : carData) {
@@ -49,8 +48,10 @@ public class CarRepository {
         return null; // Handle the case where the car is not found
     }
 
-    public void delete(String id) {
+    public Car delete(String id) {
+        Car thisCarById = findById(id);
         carData.removeIf(car -> car.getCarId().equals(id));
+        return thisCarById;
     }
 }
 
