@@ -96,13 +96,14 @@ class OrderServiceTest {
     void testFindByIdIfIdFound() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).findById(order.getId());
+
         Order result = orderService.findById(order.getId());
         assertEquals(order.getId(), result.getId());
     }
 
     @Test
     void testFindByIdIfIdNotFound() {
-        doReturn (null).when(orderRepository).findById("zcze");
+        doReturn (null).when(orderRepository).findById("zczc");
         assertNull(orderService.findById("zczc"));
     }
 
