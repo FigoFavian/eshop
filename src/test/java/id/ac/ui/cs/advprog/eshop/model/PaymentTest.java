@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 public class PaymentTest {
     private Map<String, String> voucherPaymentData;
@@ -56,22 +57,23 @@ public class PaymentTest {
         Map<String, String> paymentDataWithGreaterThanSixteenCharacters = new HashMap<>();
 
         paymentDataWithoutESHOPPrefix.put("voucherCode", "1234ABC5678");
-        paymentDataWithoutEightNumbers.put("voucherCode", "VOUCHERHIHIHAHA");
-        paymentDataWithLessThanSixteenCharacters.put("voucherCode", "VOUCHERHIHIHAHA567");
-        paymentDataWithGreaterThanSixteenCharacters.put("voucherCode", "VOUCHERHIHIHAHA56781234");
+        paymentDataWithoutEightNumbers.put("voucherCode", "ESHOP1234ABC");
+        paymentDataWithLessThanSixteenCharacters.put("voucherCode", "ESHOP1234ABC567");
+        paymentDataWithGreaterThanSixteenCharacters.put("voucherCode", "ESHOP1234ABC56781234");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("VOUCHER", paymentDataWithoutESHOPPrefix, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("VOUCHER", paymentDataWithoutEightNumbers, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("VOUCHER", paymentDataWithLessThanSixteenCharacters, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("VOUCHER", paymentDataWithGreaterThanSixteenCharacters, this.order);
-        });
+        Payment paymentWithoutESHOPPrefix = new Payment("VOUCHER",
+                paymentDataWithoutESHOPPrefix, this.order);
+        Payment paymentWithoutEightNumbers = new Payment("VOUCHER",
+                paymentDataWithoutEightNumbers, this.order);
+        Payment paymentWithLessThanSixteenCharacters = new Payment("VOUCHER",
+                paymentDataWithLessThanSixteenCharacters, this.order);
+        Payment paymentWithGreaterThanSixteenCharacters = new Payment("VOUCHER",
+                paymentDataWithGreaterThanSixteenCharacters, this.order);
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithoutESHOPPrefix.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithoutEightNumbers.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithLessThanSixteenCharacters.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithGreaterThanSixteenCharacters.getStatus());
     }
 
     @Test
