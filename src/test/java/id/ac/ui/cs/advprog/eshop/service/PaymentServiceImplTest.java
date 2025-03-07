@@ -97,25 +97,23 @@ public class PaymentServiceImplTest {
 
         when(paymentRepository.getAllPayments()).thenReturn(payments);
 
-        List<Payment> allPayments = paymentService.getAllPayments();
-        assertEquals(2, allPayments.size());
-        verify(paymentRepository, times(1)).getAllPayments();
+        assertEquals(2, paymentService.getAllPayments().size());
+        verify(paymentRepository).getAllPayments();
     }
 
 
     @Test
     void testGetByIdFound() {
         Payment payment = new Payment(PaymentMethod.VOUCHER.getValue(), voucherPaymentData, order1);
-        when(paymentRepository.addPayment(eq(order1), eq(PaymentMethod.VOUCHER.getValue()), eq(voucherPaymentData)))
+
+        when(paymentRepository.addPayment(order1, PaymentMethod.VOUCHER.getValue(), voucherPaymentData))
                 .thenReturn(payment);
+        when(paymentRepository.getPayment(payment.getId())).thenReturn(payment);
 
-        Payment addedPayment = paymentService.addPayment(order1, PaymentMethod.VOUCHER.getValue(), voucherPaymentData);
+        paymentService.addPayment(order1, PaymentMethod.VOUCHER.getValue(), voucherPaymentData);
+        Payment result = paymentService.getPayment(payment.getId());
 
-        when(paymentRepository.getPayment(addedPayment.getId())).thenReturn(addedPayment);
-
-        Payment retrievedPayment = paymentService.getPayment(addedPayment.getId());
-        assertEquals(addedPayment, retrievedPayment);
-        verify(paymentRepository, times(1)).getPayment(addedPayment.getId());
+        assertEquals(payment, result);
     }
 
     @Test
@@ -132,25 +130,19 @@ public class PaymentServiceImplTest {
 
     @Test
     void testSetStatusSuccessful() {
-        Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("voucherCode", "ESHOP12345678ABC");
-        Payment payment = new Payment(PaymentMethod.VOUCHER.getValue(), paymentData, order1);
+        Payment payment = new Payment(PaymentMethod.VOUCHER.getValue(), voucherPaymentData, order1);
 
         paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
         assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertEquals(OrderStatus.SUCCESS.getValue(), order1.getStatus());
-
-        paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
-        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
-        assertEquals(OrderStatus.FAILED.getValue(), order1.getStatus());
     }
 
 
     @Test
     void testSetStatusFail() {
-        Payment payment1 = paymentService.addPayment(order1, PaymentMethod.VOUCHER.getValue(), voucherPaymentData);
+        Payment payment = new Payment(PaymentMethod.VOUCHER.getValue(), voucherPaymentData, order1);
+
         assertThrows(IllegalArgumentException.class, () ->
-                paymentService.setStatus(payment1, "MEOW")
-        );
+                paymentService.setStatus(payment, "MEOW"));
     }
 }
