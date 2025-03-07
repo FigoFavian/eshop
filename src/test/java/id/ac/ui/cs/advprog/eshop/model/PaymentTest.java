@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,4 +115,32 @@ public class PaymentTest {
             new Payment("MEOW", this.voucherPaymentData, this.order);
         });
     }
+
+
+    @Test
+    void testSetStatusToInvalidStatus() {
+        Payment payment = new Payment("VOUCHER", this.voucherPaymentData, this.order);
+        assertThrows(IllegalArgumentException.class, () -> {
+            payment.setStatus("MEOW");
+        });
+    }
+
+    @Test
+    void testCreateVoucherPaymentSuccess() {
+        Payment payment = new Payment("VOUCHER", this.voucherPaymentData, this.order);
+        assertNotNull(payment.getId(), "id for payment cant be null");
+        assertEquals("SUCCESS", payment.getStatus());
+        assertSame(this.voucherPaymentData, payment.getPaymentData());
+        assertSame(this.order, payment.getOrder());
+    }
+
+    @Test
+    void testCreateCODPaymentSuccess() {
+        Payment payment = new Payment("BANK", this.bankPaymentData, this.order);
+        assertNotNull(payment.getId(), "id for payment cant be null");
+        assertEquals("SUCCESS", payment.getStatus());
+        assertSame(this.bankPaymentData, payment.getPaymentData());
+        assertSame(this.order, payment.getOrder());
+    }
+}
 }
