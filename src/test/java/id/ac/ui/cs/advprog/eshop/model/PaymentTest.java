@@ -18,7 +18,7 @@ public class PaymentTest {
     @BeforeEach
     void setUp() {
         this.voucherPaymentData = new HashMap<>();
-        this.voucherPaymentData.put("voucherCode", "VOUCHERHIHIHAHA5678");
+        this.voucherPaymentData.put("voucherCode", "ESHOP12345678ABC");
 
         this.bankPaymentData = new HashMap<>();
         this.bankPaymentData.put("bankName", "CommonWealth");
@@ -126,7 +126,7 @@ public class PaymentTest {
     }
 
     @Test
-    void testCreateVoucherPaymentSuccess() {
+        void testCreateVoucherPaymentSuccess() {
         Payment payment = new Payment("VOUCHER", this.voucherPaymentData, this.order);
         assertNotNull(payment.getId(), "id for payment cant be null");
         assertEquals("SUCCESS", payment.getStatus());
@@ -142,5 +142,4 @@ public class PaymentTest {
         assertSame(this.bankPaymentData, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
     }
-}
 }
