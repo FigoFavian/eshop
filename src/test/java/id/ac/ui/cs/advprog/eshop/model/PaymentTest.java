@@ -23,7 +23,7 @@ public class PaymentTest {
 
         this.bankPaymentData = new HashMap<>();
         this.bankPaymentData.put("bankName", "CommonWealth");
-        this.bankPaymentData.put("referenceCode", "refcode911");
+        this.bankPaymentData.put("referenceCode", "REF1234567890123");
 
         this.products = new ArrayList<>();
         Product product1 = new Product();
@@ -78,30 +78,31 @@ public class PaymentTest {
 
     @Test
     void testCreateBankPaymentWithInvalidData() {
-        Map<String, String> paymentDataWithoutbankName = new HashMap<>();
-        Map<String, String> paymentDataWithoutreferenceCode = new HashMap<>();
-        Map<String, String> paymentDataWithEmptybankName = new HashMap<>();
-        Map<String, String> paymentDataWithEmptyreferenceCode = new HashMap<>();
+        Map<String, String> paymentDataWithoutBankName = new HashMap<>();
+        Map<String, String> paymentDataWithoutReferenceCode = new HashMap<>();
+        Map<String, String> paymentDataWithEmptyBankName = new HashMap<>();
+        Map<String, String> paymentDataWithEmptyReferenceCode = new HashMap<>();
 
-        paymentDataWithoutbankName.put("referenceCode", "coderef420420");
-        paymentDataWithoutreferenceCode.put("bankName", "CommonWealth");
-        paymentDataWithEmptybankName.put("bankName", "");
-        paymentDataWithEmptybankName.put("referenceCode", "coderef420420");
-        paymentDataWithEmptyreferenceCode.put("referenceCode", "");
-        paymentDataWithEmptyreferenceCode.put("bankName", "CommonWealth");
+        paymentDataWithoutBankName.put("referenceCode", "REF1234567890123");
+        paymentDataWithoutReferenceCode.put("bankName", "CommonWealth");
+        paymentDataWithEmptyBankName.put("bankName", "");
+        paymentDataWithEmptyBankName.put("referenceCode", "REF1234567890123");
+        paymentDataWithEmptyReferenceCode.put("referenceCode", "");
+        paymentDataWithEmptyReferenceCode.put("bankName", "CommonWealth");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("BANK", paymentDataWithoutbankName, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("BANK", paymentDataWithoutreferenceCode, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("BANK", paymentDataWithEmptybankName, this.order);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("BANK", paymentDataWithEmptyreferenceCode, this.order);
-        });
+        Payment paymentWithoutBankName = new Payment("BANK",
+                paymentDataWithoutBankName, this.order);
+        Payment paymentWithoutReferenceCode = new Payment("BANK",
+                paymentDataWithoutReferenceCode, this.order);
+        Payment paymentWithEmptyBankName = new Payment("BANK",
+                paymentDataWithEmptyBankName, this.order);
+        Payment paymentWithEmptyReferenceCode = new Payment("BANK",
+                paymentDataWithEmptyReferenceCode, this.order);
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithoutBankName.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithoutReferenceCode.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithEmptyBankName.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentWithEmptyReferenceCode.getStatus());
     }
 
     @Test
@@ -128,19 +129,19 @@ public class PaymentTest {
     }
 
     @Test
-        void testCreateVoucherPaymentSuccess() {
+    void testCreateVoucherPaymentWaiting() {
         Payment payment = new Payment("VOUCHER", this.voucherPaymentData, this.order);
-        assertNotNull(payment.getId(), "id for payment cant be null");
-        assertEquals("SUCCESS", payment.getStatus());
+        assertNotNull(payment.getId(), "Payment id should not be null");
+        assertEquals("WAITING", payment.getStatus());
         assertSame(this.voucherPaymentData, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
     }
 
     @Test
-    void testCreateCODPaymentSuccess() {
+    void testCreateBankPaymentWaiting() {
         Payment payment = new Payment("BANK", this.bankPaymentData, this.order);
-        assertNotNull(payment.getId(), "id for payment cant be null");
-        assertEquals("SUCCESS", payment.getStatus());
+        assertNotNull(payment.getId(), "Payment id should not be null");
+        assertEquals("WAITING", payment.getStatus());
         assertSame(this.bankPaymentData, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
     }
