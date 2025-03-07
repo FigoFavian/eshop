@@ -66,13 +66,12 @@ public class Payment {
                 this.paymentData = paymentData;
             }
         }  else if (this.method.equals(PaymentMethod.BANK.getValue())) {
-            if (paymentData.get("bankName") == null || paymentData.get("referenceCode") == null) {
+            String bankName = paymentData.get("bankName");
+            String referenceCode = paymentData.get("referenceCode");
+            if (bankName == null || bankName.isBlank() || referenceCode == null || referenceCode.isBlank()){
                 throw new IllegalArgumentException();
-            } else if (paymentData.get("bankName").isEmpty() || paymentData.get("referenceCode").isEmpty()) {
-                throw new IllegalArgumentException();
-            } else {
-                this.paymentData = paymentData;
             }
+            this.paymentData = paymentData;
         }
     }
 }
