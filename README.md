@@ -139,3 +139,36 @@ C. **The diadvantages of NOT applying SOLID principle**
 3. Using CarServiceImpl directly instead of CarService or not implementing DIP makes it difficult to switch to a new implementation.
 
 </details>
+
+### Module 4
+
+<details>
+<summary>Reflection</summary>
+
+**Reflect based on Percival (2017) proposed self-reflective questions, whether this TDD flow is useful enough for you or not.**
+
+I implemented Test Driven Development or short as TDD workflow. TTD consists of RED, GREEN, and REFACTOR. RED is when i added the test suites. Then for it to be GREEN, i had to code the main classes for test to pass. Finally for REFACTOR is when the code needs to refactor or making the structure a bit better.
+
+* Correctness: Adding test cases before the main code was beneficial due to how easier it is spot mistakes  based on the test case results.
+
+* Clean and Maintainable codes: This was done by refactoring such as implementing enum clasees for better maintenance and code structure. By also making the test suites before the main code improved the maintainability incase there would be changes or updates in the future.
+
+* Productive Workflow: The TTD workflow is structured and efficient workflow that it provides a productive path for how a development cycle should do.
+
+
+
+**Reflect on whether your tests have successfully followed F.I.R.S.T. principle or not.**
+
+Ive followed the F.I.R.S.T. for this week:
+
+* Fast: My test suites were designed to execute quickly to ensure feedbacks during development. For example, mocking dependencies such as `PaymentRepository`for the tests to focus purely on unit logic.
+
+* Isolated/Independent: Each test was made to avoid dependencies on external state or other tests. The use of `@BeforeEach` is for `order1`, `voucherPaymentData`, and other variables to be isolated and independent before every test.
+
+* Repeatable: Tests were repeatable in controlled environments such as `testCreateVoucherPayment` consistently passed.
+
+* Self Validating: All tests included explicit assertions, for example `assertEquals` and `assertThrows`, to determine success or failure exclusively.
+
+* Thorough/Timely: all happy paths and unhappy paths. Each requirement was understood, the methods and properties in need of implementing were fully realized, and the necessary happy and unhappy tests were created. My test ensures to cover both happy and unhappy path. For example Happy paths like `testCreateVoucherPayment` validated correct voucher formats and unhappy paths like `testCreateVoucherInvalid` checks rejection of incorrect voucher codes.
+
+</details>
