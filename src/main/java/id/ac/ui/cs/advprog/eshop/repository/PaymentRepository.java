@@ -7,6 +7,7 @@ import java.util.Map;
 import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 
 public class PaymentRepository {
     private List<Payment> paymentData = new ArrayList<>();
@@ -23,8 +24,13 @@ public class PaymentRepository {
             throw new IllegalArgumentException();
         }
         payment.setStatus(status);
-        payment.getOrder().setStatus(
-                status.equals("SUCCESS") ? "SUCCESS" : "FAILED");
+        if (status.equals(PaymentStatus.SUCCESS.getValue())) {
+            payment.getOrder().setStatus(
+                    OrderStatus.SUCCESS.getValue());
+        } else {
+            payment.getOrder().setStatus(
+                    OrderStatus.FAILED.getValue());
+        }
         return payment;
     }
 
